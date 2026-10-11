@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5">
+<meta name="theme-color" content="#0b0b1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Happy Birthday Ayu 🌸✨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════ LOADING PAGE ════ -->
+<div id="loading-page">
+
+  <!-- Animated star background for loading page -->
+  <svg class="lp-stars" aria-hidden="true" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+    <!-- Twinkling dots -->
+    <circle cx="120" cy="80" r="1.2" fill="#fff"><animate attributeName="opacity" values=".2;1;.2" dur="2.5s" repeatCount="indefinite"/></circle>
+    <circle cx="680" cy="45" r="1.5" fill="#fde68a"><animate attributeName="opacity" values=".3;1;.3" dur="3s" begin=".5s" repeatCount="indefinite"/></circle>
+    <circle cx="350" cy="120" r="1" fill="#c4b5fd"><animate attributeName="opacity" values=".1;.9;.1" dur="2s" begin="1s" repeatCount="indefinite"/></circle>
+    <circle cx="50" cy="350" r="1.4" fill="#fff"><animate attributeName="opacity" values=".2;1;.2" dur="3.5s" begin=".3s" repeatCount="indefinite"/></circle>
+    <circle cx="720" cy="280" r="1" fill="#fbcfe8"><animate attributeName="opacity" values=".3;1;.3" dur="2.8s" begin="1.2s" repeatCount="indefinite"/></circle>
+    <circle cx="200" cy="500" r="1.3" fill="#fde68a"><animate attributeName="opacity" values=".2;.8;.2" dur="2.2s" begin=".8s" repeatCount="indefinite"/></circle>
+    <circle cx="580" cy="420" r="1.1" fill="#c4b5fd"><animate attributeName="opacity" values=".1;1;.1" dur="3.2s" begin="1.5s" repeatCount="indefinite"/></circle>
+    <circle cx="450" cy="50" r="1.6" fill="#fff"><animate attributeName="opacity" values=".2;1;.2" dur="2s" begin=".2s" repeatCount="indefinite"/></circle>
+    <circle cx="90" cy="200" r=".9" fill="#fbcfe8"><animate attributeName="opacity" values=".3;.9;.3" dur="2.6s" begin=".7s" repeatCount="indefinite"/></circle>
+    <circle cx="640" cy="530" r="1.2" fill="#fff"><animate attributeName="opacity" values=".2;1;.2" dur="3s" begin="1s" repeatCount="indefinite"/></circle>
+    <!-- 4-point sparkle stars with SVG rotate -->
+    <g transform="translate(300,90)">
+      <path d="M0-6 1.5-1.5 6 0 1.5 1.5 0 6-1.5 1.5-6 0-1.5-1.5z" fill="#fde68a" opacity=".6">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="8s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".3;1;.3" dur="3s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <g transform="translate(600,180)">
+      <path d="M0-5 1.2-1.2 5 0 1.2 1.2 0 5-1.2 1.2-5 0-1.2-1.2z" fill="#c084fc" opacity=".5">
+        <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".2;.9;.2" dur="2.5s" begin=".5s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <g transform="translate(150,450)">
+      <path d="M0-7 1.8-1.8 7 0 1.8 1.8 0 7-1.8 1.8-7 0-1.8-1.8z" fill="#f472b6" opacity=".4">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="10s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values=".2;.8;.2" dur="4s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- Shooting star across the loading screen -->
+    <line x1="700" y1="60" x2="680" y2="65" stroke="url(#lp-shoot-grad)" stroke-width="1.5" stroke-linecap="round">
+      <animateMotion dur="4s" repeatCount="indefinite" path="M0,0 L-400,250" begin="2s"/>
+      <animate attributeName="opacity" values="0;1;1;0" dur="4s" begin="2s" repeatCount="indefinite"/>
+    </line>
+    <defs>
+      <linearGradient id="lp-shoot-grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="transparent"/>
+        <stop offset="100%" stop-color="#fff"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- Floating particles -->
+  <div class="lp-particles" aria-hidden="true">
+    <i class="lp-p" style="--x:10%;--s:3px;--d:7s;--dl:0s"></i>
+    <i class="lp-p" style="--x:20%;--s:2px;--d:9s;--dl:-2s"></i>
+    <i class="lp-p" style="--x:30%;--s:4px;--d:6s;--dl:-4s"></i>
+    <i class="lp-p" style="--x:42%;--s:2px;--d:10s;--dl:-1s"></i>
+    <i class="lp-p" style="--x:55%;--s:3px;--d:8s;--dl:-3s"></i>
+    <i class="lp-p" style="--x:65%;--s:2px;--d:11s;--dl:-5s"></i>
+    <i class="lp-p" style="--x:75%;--s:4px;--d:7s;--dl:-2s"></i>
+    <i class="lp-p" style="--x:85%;--s:3px;--d:9s;--dl:-6s"></i>
+    <i class="lp-p" style="--x:5%;--s:2px;--d:8s;--dl:-3s"></i>
+    <i class="lp-p" style="--x:50%;--s:3px;--d:6s;--dl:-1s"></i>
+    <i class="lp-p" style="--x:92%;--s:2px;--d:10s;--dl:-4s"></i>
+    <i class="lp-p" style="--x:37%;--s:4px;--d:7s;--dl:-5s"></i>
+  </div>
+
+  <!-- Concentric spinning rings -->
+  <div class="lp-center">
+    <div class="lp-ring lp-ring-1"></div>
+    <div class="lp-ring lp-ring-2"></div>
+    <div class="lp-ring lp-ring-3"></div>
+
+    <!-- Pulsing hearts orbiting the rings -->
+    <span class="lp-heart lph-1">♥</span>
+    <span class="lp-heart lph-2">♥</span>
+    <span class="lp-heart lph-3">♥</span>
+
+    <!-- Central icon -->
+    <div class="lp-icon">🎂</div>
+  </div>
+
+  <!-- Animated text -->
+  <p class="loader-text">Loading something special</p>
+  <p class="loader-dots"><span>.</span><span>.</span><span>.</span></p>
+  <p class="loader-sub">~ for the best sister ever ~</p>
+
+  <button class="btn glow-btn lp-btn" id="enter-btn">Tap to enter ✨</button>
+</div>
+
+<audio id="bg-music" src="ayu.mp3" loop preload="auto"></audio>
+
+<!-- Floating Music Controller -->
+<button id="music-toggle" class="music-toggle" aria-label="Toggle background music" title="Toggle music">
+  <span class="music-icon">🎵</span>
+  <div class="music-waves">
+    <span></span><span></span><span></span>
+  </div>
+</button>
+
+<!-- ════ SKY LAYER — stars, shooting stars, aurora, nebula ════ -->
+<div id="sky">
+  <!-- SVG star field rendered by JS -->
+  <svg id="star-field" aria-hidden="true"></svg>
+  <!-- Aurora / northern-lights bands -->
+  <div class="aurora"></div>
+  <div class="aurora aurora-2"></div>
+  <!-- Nebula blobs -->
+  <div class="nebula n1"></div>
+  <div class="nebula n2"></div>
+  <div class="nebula n3"></div>
+</div>
+
+<!-- ════ SPARKLE CURSOR CANVAS ════ -->
+<canvas id="sparkle-canvas" aria-hidden="true"></canvas>
+
+<main>
+
+<!-- ════ FAIRY LIGHTS ════ -->
+<svg id="lt" aria-hidden="true"></svg>
+
+<!-- ═══════════ SECTION 1 — HERO ═══════════ -->
+<section class="hero" style="padding-top:0">
+  <!-- Floating 3-D hearts background -->
+  <div class="float-hearts" aria-hidden="true">
+    <span class="fh" style="--i:0">♥</span><span class="fh" style="--i:1">♥</span>
+    <span class="fh" style="--i:2">♥</span><span class="fh" style="--i:3">♥</span>
+    <span class="fh" style="--i:4">♥</span><span class="fh" style="--i:5">♥</span>
+    <span class="fh" style="--i:6">♥</span><span class="fh" style="--i:7">♥</span>
+  </div>
+
+  <figure class="pol">
+    <img src="ayu.jpg" alt="Ayu">
+    <figcaption>Ayu ♥</figcaption>
+  </figure>
+
+  <svg class="hb" viewBox="0 0 600 120" role="img" aria-label="Happy Birthday">
+    <defs>
+      <linearGradient id="hb-grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#ff6b9d"/>
+        <stop offset="50%" stop-color="#ffd46a"/>
+        <stop offset="100%" stop-color="#c084fc"/>
+      </linearGradient>
+    </defs>
+    <text x="300" y="88" text-anchor="middle" fill="url(#hb-grad)">Happy Birthday</text>
+  </svg>
+
+  <div class="nm">
+    <h1 class="name">Ayu</h1>
+    <!-- SVG sparkle ornament — scale + rotate + opacity -->
+    <svg class="spk" viewBox="-30 -30 60 60" aria-hidden="true">
+      <g transform="translate(6 -6)"><path d="M0-12 3-3 12 0 3 3 0 12-3 3-12 0-3-3z" fill="#ffd46a">
+        <animateTransform attributeName="transform" type="scale" values=".3;1;.3" dur="2.4s" repeatCount="indefinite"/>
+      </path></g>
+      <g transform="translate(-14 14)"><path d="M0-7 2-2 7 0 2 2 0 7-2 2-7 0-2-2z" fill="#c084fc">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;.3;1" dur="2s" repeatCount="indefinite"/>
+      </path></g>
+    </svg>
+  </div>
+
+  <p class="msg">Happy Birthday to my sweetest sister! May your heart always be full of joy, your path filled with blooming flowers, and your year blessed with endless love and laughter.</p>
+
+  <!-- Animated SVG heart — stroke-dashoffset draw + scale beat -->
+  <svg class="heart" viewBox="0 0 100 90" aria-hidden="true">
+    <defs><filter id="heart-glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path filter="url(#heart-glow)" pathLength="100" d="M50 84C10 52 4 30 20 15c12-10 26-3 30 8 4-11 18-18 30-8 16 15 10 37-30 69z"/>
+  </svg>
+</section>
+
+<!-- ═══════════ SECTION 2 — CAKE ═══════════ -->
+<section>
+  <h3 class="glow-text">Make a wish</h3>
+  <svg class="cake" id="cake" viewBox="0 0 260 240" role="img" aria-label="Birthday cake with candles">
+    <!-- orbiting ring -->
+    <ellipse class="orb" cx="130" cy="130" rx="118" ry="78"/>
+    <ellipse cx="130" cy="210" rx="120" ry="14" fill="#3a2250"/>
+    <!-- cake body -->
+    <rect x="34" y="140" width="192" height="66" rx="12" fill="#7c3aed"/>
+    <path d="M34 152a12 12 0 0 1 12-12h168a12 12 0 0 1 12 12v2q-12 16-24 0t-24 0-24 0-24 0-24 0-24 0-24 0-24 0z" fill="#a78bfa"/>
+    <rect x="64" y="96" width="132" height="46" rx="10" fill="#8b5cf6"/>
+    <path d="M64 106a10 10 0 0 1 10-10h112a10 10 0 0 1 10 10v2q-11 14-22 0t-22 0-22 0-22 0-22 0z" fill="#c4b5fd"/>
+    <!-- sprinkles -->
+    <g class="sp"><circle cx="58" cy="176" r="3" fill="#ffd46a"/><circle cx="96" cy="190" r="3" fill="#67e8f9"/><circle cx="140" cy="178" r="3" fill="#c084fc"/><circle cx="190" cy="192" r="3" fill="#86efac"/></g>
+    <g class="sp"><circle cx="76" cy="194" r="3" fill="#fff"/><circle cx="118" cy="170" r="3" fill="#ffd46a"/><circle cx="168" cy="174" r="3" fill="#67e8f9"/><circle cx="208" cy="176" r="3" fill="#c084fc"/></g>
+    <!-- candles -->
+    <rect x="98" y="62" width="8" height="36" rx="2" fill="#fde68a"/>
+    <rect x="126" y="62" width="8" height="36" rx="2" fill="#c4b5fd"/>
+    <rect x="154" y="62" width="8" height="36" rx="2" fill="#fde68a"/>
+    <!-- flames with SVG filter glow -->
+    <defs><filter id="flame-glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <path class="flame" filter="url(#flame-glow)" d="M102 38C110 48 108 62 102 62C96 62 94 48 102 38z"/>
+    <path class="flame" filter="url(#flame-glow)" style="animation-delay:.15s" d="M130 38C138 48 136 62 130 62C124 62 122 48 130 38z"/>
+    <path class="flame" filter="url(#flame-glow)" style="animation-delay:.3s" d="M158 38C166 48 164 62 158 62C152 62 150 48 158 38z"/>
+    <circle class="smoke" cx="102" cy="44" r="5"/><circle class="smoke" cx="130" cy="44" r="5" style="animation-delay:.15s"/><circle class="smoke" cx="158" cy="44" r="5" style="animation-delay:.3s"/>
+    <!-- top star ornament with SVG rotate -->
+    <g transform="translate(130 14)"><path d="M0-12 3-3 12 0 3 3 0 12-3 3-12 0-3-3z" fill="#ffd46a">
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;.35;1" dur="2s" repeatCount="indefinite"/>
+    </path></g>
+    <!-- orbiting dot with animateMotion -->
+    <circle r="4" fill="#f472b6">
+      <animateMotion dur="8s" repeatCount="indefinite" path="M12 130a118 78 0 1 0 236 0a118 78 0 1 0-236 0z"/>
+      <animate attributeName="r" values="3;5.5;3" dur="1.4s" repeatCount="indefinite"/>
+    </circle>
+  </svg>
+  <button class="btn glow-btn" id="bl">Blow the candles 🎂</button>
+</section>
+
+<!-- ═══════════ SECTION 3 — ENVELOPES ═══════════ -->
+<section>
+  <h3 class="glow-text">Little notes for you</h3>
+  <small class="hint">tap an envelope to open it</small>
+  <div class="row">
+    <div class="env" tabindex="0" role="button" style="--dl:0s"><i class="flap"></i><div class="paper">To my lovely sister: Thank you for filling our lives with warmth, sweetness, and your cute smiles. 💕</div><i class="pocket"></i></div>
+    <div class="env" tabindex="0" role="button" style="--dl:-2s"><i class="flap"></i><div class="paper">Having a sister like you is life's greatest gift. Keep shining bright and chasing your dreams! ✨</div><i class="pocket"></i></div>
+    <div class="env" tabindex="0" role="button" style="--dl:-4s"><i class="flap"></i><div class="paper">No matter how much we grow, you will always be my precious sister. Wishing you eternal happiness! 🌸</div><i class="pocket"></i></div>
+  </div>
+</section>
+
+<!-- ═══════════ SECTION 4 — WISHES CAROUSEL (NEW) ═══════════ -->
+<section class="wishes-section">
+  <h3 class="glow-text">Birthday Wishes</h3>
+  <div class="wish-carousel">
+    <div class="wish-card wc1">
+      <span class="wish-icon">🎀</span>
+      <p>You are the most amazing sister anyone could ask for. I feel so lucky!</p>
+    </div>
+    <div class="wish-card wc2">
+      <span class="wish-icon">🌙</span>
+      <p>May all your wishes come true tonight under these stars. Dream big, sis!</p>
+    </div>
+    <div class="wish-card wc3">
+      <span class="wish-icon">💫</span>
+      <p>Every moment with you is a blessing. Here's to many more years of love!</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>Made with <span>♥</span> for the best sister ever, <strong>Ayu</strong></footer>
+
+<script src="script.js"></script>
+</body>
+</html>

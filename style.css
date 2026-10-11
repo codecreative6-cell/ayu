@@ -1,0 +1,786 @@
+/* ═══════════════════════════════════════════════
+   DARK STARRY BIRTHDAY THEME — style.css
+   CSS animation types used:
+     1.  @keyframes translate
+     2.  @keyframes scale
+     3.  @keyframes rotate / rotate3d
+     4.  @keyframes skew
+     5.  @keyframes opacity / fade
+     6.  @keyframes filter (blur, brightness, hue-rotate, saturate)
+     7.  @keyframes clip-path morph
+     8.  @keyframes background-position (gradient shift)
+     9.  @keyframes box-shadow (glow pulse)
+    10.  @keyframes text-shadow (neon flicker)
+    11.  @keyframes stroke-dashoffset (SVG draw)
+    12.  @keyframes color / fill change
+    13.  @keyframes perspective 3D transforms
+    14.  @keyframes border-radius morph (blob)
+    15.  CSS transitions on hover/focus
+    16.  SVG <animate>, <animateTransform>, <animateMotion>
+   ═══════════════════════════════════════════════ */
+
+html{
+  -webkit-text-size-adjust:100%;
+  -moz-text-size-adjust:100%;
+  text-size-adjust:100%;
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
+
+*{box-sizing:border-box;margin:0}
+
+/* ── Palette ── */
+:root{
+  --bg1:#0b0b1a;--bg2:#12122b;--bg3:#1a1040;
+  --rose:#f472b6;--violet:#c084fc;--gold:#fbbf24;
+  --cream:#fefce8;--deep:#e2e8f0;
+  --glow-pink:rgba(244,114,182,.55);
+  --glow-violet:rgba(192,132,252,.45);
+}
+
+/* ── Base ── */
+body{
+  font:500 clamp(16px,4vw,22px)/1.55 "Cormorant Garamond",Georgia,serif;
+  color:var(--deep);text-align:center;overflow-x:hidden;
+  min-height:100vh;min-height:100dvh;
+  /* 1. background-position animation (animated gradient) */
+  background:linear-gradient(160deg,var(--bg1),var(--bg2) 40%,var(--bg3) 75%,var(--bg1)) 0 0/300% 300%;
+  animation:bgShift 22s ease infinite;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+@keyframes bgShift{50%{background-position:100% 100%}}
+
+/* ══════════════════════════════
+   SKY — stars, aurora, nebula
+   ══════════════════════════════ */
+#sky{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;will-change:transform;transform:translateZ(0);contain:strict}
+
+/* SVG star canvas */
+#star-field{position:absolute;inset:0;width:100%;height:100%;contain:content}
+
+/* ── Aurora / Northern-lights ── */
+/* 2. translateX + scaleX + opacity + hue-rotate animation */
+.aurora{
+  position:absolute;bottom:0;left:-20%;width:140%;height:40%;
+  background:linear-gradient(90deg,transparent,rgba(192,132,252,.12),rgba(244,114,182,.1),rgba(56,189,248,.08),transparent);
+  filter:blur(60px);
+  animation:auroraMove 14s ease-in-out infinite alternate, auroraHue 20s linear infinite;
+  will-change:transform,filter;transform:translateZ(0);backface-visibility:hidden;
+}
+.aurora-2{
+  height:30%;bottom:10%;
+  background:linear-gradient(90deg,transparent,rgba(56,189,248,.08),rgba(168,85,247,.1),transparent);
+  animation:auroraMove 18s ease-in-out 3s infinite alternate-reverse, auroraHue 25s linear infinite;
+}
+@keyframes auroraMove{
+  0%{transform:translateX(-10%) scaleX(1);opacity:.6}
+  100%{transform:translateX(10%) scaleX(1.15);opacity:1}
+}
+/* 3. hue-rotate filter animation */
+@keyframes auroraHue{to{filter:blur(60px) hue-rotate(360deg)}}
+
+/* ── Nebula blobs ── */
+/* 4. translate + scale + border-radius morph animation */
+.nebula{
+  position:absolute;border-radius:50%;
+  filter:blur(80px);opacity:.18;
+  animation:nebulaDrift 20s ease-in-out infinite alternate;
+  will-change:transform;transform:translateZ(0);backface-visibility:hidden;
+}
+.n1{width:500px;height:500px;top:-10%;left:-5%;background:radial-gradient(circle,#7c3aed,transparent 70%)}
+.n2{width:400px;height:400px;bottom:5%;right:-8%;background:radial-gradient(circle,#f472b6,transparent 70%);animation-delay:-7s;animation-duration:25s}
+.n3{width:350px;height:350px;top:40%;left:30%;background:radial-gradient(circle,#38bdf8,transparent 70%);animation-delay:-12s;animation-duration:30s}
+@keyframes nebulaDrift{
+  0%{transform:translate(0,0) scale(1);border-radius:50%}
+  33%{border-radius:40% 60% 55% 45%}
+  66%{border-radius:60% 40% 45% 55%}
+  100%{transform:translate(40px,-30px) scale(1.15);border-radius:50%}
+}
+
+/* ── Bokeh (dreamy soft circles) ── */
+/* 5. translate + scale + opacity */
+.bk{
+  position:absolute;left:var(--x);top:var(--y);
+  width:var(--s);height:var(--s);border-radius:50%;
+  background:radial-gradient(circle,rgba(192,132,252,.25),rgba(244,114,182,.12) 60%,transparent 70%);
+  animation:bokeh var(--d) ease-in-out var(--dl) infinite;
+  will-change:transform,opacity;transform:translateZ(0);
+}
+@keyframes bokeh{50%{transform:translate(24px,-34px) scale(1.25);opacity:.35}}
+
+/* ── Petals ── */
+/* 6. translate3d + rotate3d + rotate (multi-axis 3D) */
+.pt{
+  position:absolute;top:-6vh;left:var(--x);
+  width:var(--pw);height:calc(var(--pw)*1.25);
+  background:linear-gradient(135deg,var(--c),rgba(255,214,226,.7));
+  border-radius:100% 0 100% 0;opacity:.75;
+  animation:petal var(--d) linear var(--dl) infinite;
+  will-change:transform;backface-visibility:hidden;
+}
+@keyframes petal{
+  0%{transform:translate3d(0,0,0) rotate3d(1,1,0,0deg) rotate(0deg)}
+  50%{transform:translate3d(calc(var(--dx)*.5),56vh,0) rotate3d(1,1,0,180deg) rotate(120deg)}
+  100%{transform:translate3d(var(--dx),112vh,0) rotate3d(1,1,0,360deg) rotate(240deg)}
+}
+
+/* ── Floating hearts ── */
+/* 7. translateY + rotate + scale + opacity */
+.hrt{
+  position:absolute;bottom:-40px;left:var(--x);
+  font-size:var(--s);color:var(--rose);opacity:0;
+  animation:rise var(--d) ease-in-out var(--dl) infinite;
+  will-change:transform,opacity;transform:translateZ(0);
+}
+@keyframes rise{
+  0%{opacity:0;transform:translateY(0) scale(.7)}
+  20%{opacity:.5}
+  100%{opacity:0;transform:translate(var(--dx),-105vh) scale(1.2) rotate(20deg)}
+}
+
+/* ── Shooting stars (CSS only) ── */
+/* 8. translateX + translateY + opacity */
+.shooting-star{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 6px 2px rgba(255,255,255,.6),0 0 12px 4px rgba(192,132,252,.3);
+  animation:shoot var(--d,4s) linear var(--dl,0s) infinite;
+  top:var(--y,10%);left:var(--x,80%);
+  will-change:transform,opacity;transform:translateZ(0);
+}
+.shooting-star::after{
+  content:"";position:absolute;top:50%;right:100%;
+  width:60px;height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.7));
+  transform:translateY(-50%);
+}
+@keyframes shoot{
+  0%{transform:translate(0,0);opacity:1}
+  70%{opacity:1}
+  100%{transform:translate(-55vw,35vh);opacity:0}
+}
+
+/* ── Sparkle canvas (cursor trail) ── */
+#sparkle-canvas{position:fixed;inset:0;pointer-events:none;z-index:9998;will-change:contents;transform:translateZ(0)}
+
+/* ══════════════════════════════
+   FAIRY LIGHTS
+   ══════════════════════════════ */
+/* 9. opacity animation (glow) */
+#lt{display:block;height:60px;position:relative;z-index:1}
+.bulb{animation:glow 3.2s ease-in-out var(--dl) infinite}
+@keyframes glow{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ══════════════════════════════
+   FLOATING 3D HEARTS
+   ══════════════════════════════ */
+/* 10. translateY + rotateY (3D flip) + scale */
+.float-hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.fh{
+  position:absolute;font-size:calc(18px + var(--i) * 4px);
+  color:var(--rose);opacity:.15;
+  left:calc(var(--i) * 12.5%);
+  animation:floatHeart calc(8s + var(--i) * 1.5s) ease-in-out calc(var(--i) * -.8s) infinite;
+  filter:blur(1px);
+}
+@keyframes floatHeart{
+  0%,100%{transform:translateY(0) rotateY(0deg) scale(1);opacity:.1}
+  25%{transform:translateY(-30px) rotateY(90deg) scale(1.2);opacity:.2}
+  50%{transform:translateY(-60px) rotateY(180deg) scale(1);opacity:.15}
+  75%{transform:translateY(-30px) rotateY(270deg) scale(1.3);opacity:.2}
+}
+
+/* ══════════════════════════════
+   POLAROID
+   ══════════════════════════════ */
+/* 11. translateY entry + swing rotate + box-shadow breathe */
+.pol{
+  position:relative;z-index:1;
+  width:min(84vw,350px);margin:4px auto 0;
+  padding:clamp(10px,3vw,16px) clamp(10px,3vw,16px) clamp(48px,12vw,62px);
+  background:rgba(20,10,40,.85);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(192,132,252,.2);
+  border-radius:8px;
+  box-shadow:0 18px 40px rgba(124,58,237,.3),0 0 30px rgba(244,114,182,.15);
+  transform-origin:50% -30px;
+  animation:up 1.2s .2s both,swing 7s ease-in-out 1.4s infinite,breathe 5s ease-in-out infinite;
+}
+.pol::before{content:"";position:absolute;left:50%;top:-30px;width:2px;height:30px;background:rgba(192,132,252,.4);translate:-1px 0}
+@keyframes swing{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+/* 12. box-shadow animation */
+@keyframes breathe{50%{box-shadow:0 18px 64px rgba(244,114,182,.4),0 0 50px rgba(192,132,252,.2)}}
+/* 13. filter animation (blur → clear "develop") */
+.pol img{
+  display:block;width:100%;aspect-ratio:1;object-fit:cover;object-position:center 15%;
+  border-radius:2px;
+  animation:develop 4.5s ease-out .8s both;
+}
+@keyframes develop{from{filter:blur(10px) brightness(1.7) saturate(.2);opacity:.5}to{filter:none;opacity:1}}
+.pol figcaption{position:absolute;left:0;right:0;bottom:clamp(8px,2vw,12px);font-size:clamp(28px,8vw,38px);line-height:1.2;color:var(--rose)}
+
+/* ══════════════════════════════
+   TITLES
+   ══════════════════════════════ */
+/* 14. stroke-dashoffset + fill-opacity (SVG draw) */
+.hb{display:block;width:min(94vw,560px);height:auto;margin:clamp(16px,4vw,28px) auto 0;overflow:visible}
+.hb text{
+  font:400 84px "Great Vibes",cursive;
+  fill:url(#hb-grad);fill-opacity:0;
+  stroke:var(--rose);stroke-width:1.4;
+  stroke-dasharray:600;stroke-dashoffset:600;
+  animation:writeDraw 4.5s ease-in-out .8s forwards;
+}
+@keyframes writeDraw{60%{stroke-dashoffset:0;fill-opacity:0}to{stroke-dashoffset:0;fill-opacity:1}}
+
+/* 15. background-position shine + translateY float */
+.nm{position:relative;display:inline-block;max-width:100%}
+.name{
+  font-size:clamp(64px,20vw,180px);line-height:1;padding:0 .08em;
+  background:linear-gradient(90deg,var(--rose),var(--gold),var(--violet),var(--rose)) 0 0/300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:up 1.4s 1.4s both,shine 6s linear infinite,float 6s ease-in-out infinite;
+  /* 16. text-shadow neon glow */
+  filter:drop-shadow(0 0 16px var(--glow-pink)) drop-shadow(0 0 32px var(--glow-violet));
+  word-break:keep-all;
+}
+@keyframes shine{to{background-position:300% 0}}
+@keyframes float{50%{transform:translateY(-8px)}}
+.spk{position:absolute;right:clamp(-22px,-4vw,-6px);top:clamp(-4px,-1vw,4px);width:clamp(34px,8vw,52px);overflow:visible;pointer-events:none}
+
+/* ── Message words (stagger fade-in + blur) ── */
+/* 17. opacity + filter blur + translateY */
+.msg{
+  max-width:32em;margin:clamp(12px,3vw,18px) auto 0;padding:0 clamp(12px,4vw,24px);
+  font-style:italic;font-size:clamp(18px,4.4vw,25px);line-height:1.55;
+  color:rgba(226,232,240,.88);
+}
+.msg span{
+  display:inline-block;margin-right:.3em;opacity:0;
+  animation:softWord 1.2s ease-out calc(2.6s + var(--i)*.13s) forwards;
+}
+@keyframes softWord{
+  from{opacity:0;filter:blur(8px);transform:translateY(10px)}
+  to{opacity:1;filter:blur(0);transform:none}
+}
+
+/* ── Heart SVG draw ── */
+/* 18. stroke-dashoffset draw + fill-opacity */
+.heart{width:58px;margin:20px auto 0;display:block;overflow:visible;animation:beat 1.8s ease-in-out 7s infinite}
+.heart path{
+  fill:var(--rose);fill-opacity:0;
+  stroke:var(--rose);stroke-width:2.5;
+  stroke-dasharray:100;stroke-dashoffset:100;
+  animation:drawHeart 3s ease-in-out 5s forwards;
+}
+@keyframes drawHeart{70%{stroke-dashoffset:0;fill-opacity:0}to{stroke-dashoffset:0;fill-opacity:1}}
+/* 19. scale beat */
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+
+/* ══════════════════════════════
+   CAKE SECTION
+   ══════════════════════════════ */
+/* 20. text-shadow neon flicker */
+h3{font-family:"Great Vibes","Brush Script MT",cursive;font-weight:400;font-size:clamp(34px,8.5vw,56px);color:var(--rose);margin-bottom:8px;line-height:1.2}
+.glow-text{
+  text-shadow:0 0 10px var(--glow-pink),0 0 20px var(--glow-pink),0 0 40px var(--glow-violet);
+  animation:neonFlicker 4s ease-in-out infinite;
+}
+@keyframes neonFlicker{
+  0%,100%{text-shadow:0 0 10px var(--glow-pink),0 0 20px var(--glow-pink),0 0 40px var(--glow-violet)}
+  50%{text-shadow:0 0 5px var(--glow-pink),0 0 12px var(--glow-pink),0 0 25px var(--glow-violet)}
+  52%{text-shadow:0 0 15px var(--glow-pink),0 0 30px var(--glow-pink),0 0 60px var(--glow-violet)}
+  54%{text-shadow:0 0 10px var(--glow-pink),0 0 20px var(--glow-pink),0 0 40px var(--glow-violet)}
+}
+
+.cake{width:min(86vw,330px);height:auto;display:block;margin:8px auto;filter:drop-shadow(0 12px 18px rgba(124,58,237,.25))}
+/* 21. transform-origin scale + rotate (flame flicker) */
+.flame{transform-box:fill-box;transform-origin:50% 100%;fill:#ffd46a;stroke:#ffa62b;stroke-width:1.5;animation:flick .5s ease-in-out alternate infinite}
+@keyframes flick{from{transform:scale(1) rotate(-4deg);opacity:.9}to{transform:scale(.84,1.16) rotate(4deg);opacity:1}}
+.off .flame{animation:none;transform:scale(0);opacity:0;transition:.5s}
+/* 22. translateY + scale + opacity (smoke) */
+.smoke{fill:#64748b;opacity:0;transform-box:fill-box;transform-origin:center}
+.off .smoke{animation:smokeRise 2.2s ease-out}
+@keyframes smokeRise{0%{opacity:.8;transform:translateY(0) scale(.4)}to{opacity:0;transform:translateY(-34px) scale(2.2)}}
+/* 23. opacity blink (sprinkles) */
+.sp{animation:blink 2s ease-in-out infinite}.sp+.sp{animation-delay:1s}
+@keyframes blink{50%{opacity:.25}}
+/* 24. stroke-dashoffset (orbiting ring) */
+.orb{fill:none;stroke:rgba(192,132,252,.35);stroke-dasharray:3 7;animation:dashMove 4s linear infinite}
+@keyframes dashMove{to{stroke-dashoffset:-100}}
+
+/* ══════════════════════════════
+   BUTTONS
+   ══════════════════════════════ */
+/* 25. box-shadow ring pulse + hover scale transition */
+.btn{
+  margin-top:16px;padding:clamp(11px,2.6vw,15px) clamp(24px,6vw,42px);
+  min-height:48px;border:0;border-radius:999px;
+  font:italic 600 clamp(18px,4.5vw,22px) "Cormorant Garamond",Georgia,serif;
+  color:#fff;cursor:pointer;
+  background:linear-gradient(135deg,#7c3aed,#ec4899);
+  transition:transform .25s,box-shadow .25s;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.glow-btn{
+  box-shadow:0 0 20px rgba(124,58,237,.4),0 0 40px rgba(236,72,153,.2);
+  animation:ringPulse 2.6s ease-out infinite;
+}
+.btn:hover{transform:scale(1.06);box-shadow:0 0 30px var(--glow-pink),0 0 60px var(--glow-violet)}
+.btn:active{transform:scale(.96)!important}
+.btn:focus-visible,.env:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+@keyframes ringPulse{from{box-shadow:0 0 0 0 rgba(192,132,252,.5)}to{box-shadow:0 0 0 24px rgba(192,132,252,0)}}
+
+/* ══════════════════════════════
+   ENVELOPES
+   ══════════════════════════════ */
+/* 26. translateY + rotate tilt */
+.hint{display:block;font-size:clamp(15px,3.8vw,18px);font-style:italic;opacity:.65;color:var(--deep);margin-bottom:4px}
+.row{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 22px;padding:0 8px;max-width:860px;margin:0 auto}
+.env{
+  position:relative;width:min(88vw,250px);height:148px;margin-top:clamp(84px,18vw,104px);
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  border-radius:8px;cursor:pointer;
+  animation:tilt 6s ease-in-out var(--dl,0s) infinite;
+  transition:transform .3s,box-shadow .3s;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.env:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(124,58,237,.4)}
+.env:active{transform:scale(.97)}
+.env>*{position:absolute;left:0;right:0}
+@keyframes tilt{50%{transform:translateY(-8px) rotate(1deg)}}
+/* 27. rotateX 3D flip (flap) */
+.flap{top:0;height:82px;background:linear-gradient(135deg,#6d28d9,#9333ea);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .6s,z-index 0s .3s;z-index:3}
+.env.open .flap{transform:rotateX(180deg);z-index:0}
+.pocket{top:0;bottom:0;background:linear-gradient(180deg,#8b5cf6,#a78bfa);clip-path:polygon(0 0,50% 55%,100% 0,100% 100%,0 100%);border-radius:8px;z-index:2}
+.pocket::after{content:"♥";position:absolute;left:50%;top:66%;translate:-50% 0;color:#fff;font-size:22px}
+/* 28. translateY (paper slide out) */
+.paper{
+  left:6%;right:6%;top:8px;height:130px;padding:clamp(8px,2vw,12px);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  background:rgba(15,10,30,.92);border:1px solid rgba(192,132,252,.25);
+  border-radius:6px;font-style:italic;font-size:clamp(14px,3.8vw,17px);line-height:1.35;
+  color:var(--deep);z-index:1;transition:transform .8s .3s;
+  overflow-y:auto;
+}
+.env.open .paper{transform:translateY(clamp(-82px,-18vw,-96px))}
+
+/* ══════════════════════════════
+   WISHES CAROUSEL (NEW SECTION)
+   ══════════════════════════════ */
+.wishes-section{padding:clamp(28px,6vw,44px) clamp(12px,3vw,20px)}
+.wish-carousel{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));
+  justify-content:center;gap:clamp(14px,3vw,20px);margin-top:20px;
+  max-width:860px;margin-inline:auto;
+}
+/* 29. perspective + rotateY hover 3D + backdrop-filter glass */
+.wish-card{
+  width:100%;max-width:340px;margin:0 auto;
+  padding:clamp(20px,5vw,28px) clamp(16px,4vw,22px);
+  background:rgba(124,58,237,.12);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(192,132,252,.2);
+  border-radius:16px;
+  transition:transform .5s,box-shadow .5s,border-color .3s;
+  animation:cardIn 1s ease-out both;
+  perspective:600px;
+}
+.wc1{animation-delay:.2s}.wc2{animation-delay:.5s}.wc3{animation-delay:.8s}
+/* 30. translateY + scale entry */
+@keyframes cardIn{from{opacity:0;transform:translateY(40px) scale(.9)}to{opacity:1;transform:none}}
+.wish-card:hover{
+  transform:rotateY(5deg) scale(1.03);
+  box-shadow:0 12px 40px rgba(192,132,252,.3);
+  border-color:rgba(244,114,182,.4);
+}
+.wish-card:active{transform:scale(.98)}
+.wish-icon{font-size:clamp(34px,8vw,44px);display:block;margin-bottom:10px;animation:iconBounce 2s ease-in-out infinite}
+/* 31. translateY bounce */
+@keyframes iconBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.wish-card p{font-style:italic;font-size:clamp(16px,3.8vw,18px);line-height:1.45;color:rgba(226,232,240,.85)}
+
+/* ══════════════════════════════
+   FOOTER
+   ══════════════════════════════ */
+footer{
+  padding:30px 16px max(50px,calc(30px + env(safe-area-inset-bottom)));
+  font-style:italic;font-size:clamp(15px,3.8vw,18px);color:rgba(226,232,240,.65);
+}
+footer span{display:inline-block;color:var(--rose);animation:beat 1.8s infinite}
+footer strong{color:var(--rose)}
+
+/* ══════════════════════════════
+   LOADING PAGE — Fully Animated & Responsive
+   ══════════════════════════════ */
+#loading-page{
+  position:fixed;inset:0;z-index:9999;
+  width:100%;height:100%;height:100dvh;min-height:100vh;
+  background:radial-gradient(ellipse at 50% 50%,#1a1040 0%,#0b0b1a 70%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(6px,1.8vh,12px);
+  padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+  box-sizing:border-box;
+  transition:opacity .8s ease,transform .8s ease;
+  overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+#loading-page.hidden{opacity:0;pointer-events:none;transform:scale(1.08)}
+
+/* ── SVG star background covering full screen ── */
+.lp-stars{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:0;opacity:.8;
+}
+
+/* ── Floating particles rising upward ── */
+.lp-particles{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.lp-p{
+  position:absolute;bottom:-10%;left:var(--x);
+  width:var(--s);height:var(--s);border-radius:50%;
+  background:var(--rose);
+  box-shadow:0 0 6px var(--glow-pink),0 0 12px var(--glow-violet);
+  animation:lpFloat var(--d) ease-in-out var(--dl) infinite;
+}
+@keyframes lpFloat{
+  0%{transform:translateY(0) scale(1);opacity:0}
+  10%{opacity:.7}
+  50%{transform:translateY(-50vh) scale(1.3);opacity:.5}
+  100%{transform:translateY(-110vh) scale(.6);opacity:0}
+}
+
+/* ── Center container for rings + icon ── */
+.lp-center{
+  position:relative;z-index:2;
+  width:clamp(130px,36vw,180px);height:clamp(130px,36vw,180px);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+
+/* ── 3 concentric spinning rings (different speeds & directions) ── */
+.lp-ring{
+  position:absolute;border-radius:50%;
+  border:2px solid transparent;
+}
+/* Ring 1 — outer, slow clockwise, dashed pink */
+.lp-ring-1{
+  inset:0;
+  border-color:transparent;
+  border-top:2px solid var(--rose);
+  border-right:2px dashed rgba(244,114,182,.3);
+  animation:spinCW 3s linear infinite;
+}
+/* Ring 2 — middle, faster counter-clockwise, dotted violet */
+.lp-ring-2{
+  inset:clamp(14px,3.8vw,20px);
+  border-top:2px dotted var(--violet);
+  border-left:2px solid rgba(192,132,252,.4);
+  animation:spinCCW 2s linear infinite;
+}
+/* Ring 3 — inner, fastest clockwise, solid gold */
+.lp-ring-3{
+  inset:clamp(28px,7.5vw,40px);
+  border-bottom:2px solid var(--gold);
+  border-right:2px solid rgba(251,191,36,.3);
+  animation:spinCW 1.4s linear infinite;
+}
+@keyframes spinCW{to{transform:rotate(360deg)}}
+@keyframes spinCCW{to{transform:rotate(-360deg)}}
+
+/* ── Orbiting pulsing hearts ── */
+.lp-heart{
+  position:absolute;font-size:14px;
+  color:var(--rose);
+  filter:drop-shadow(0 0 4px var(--glow-pink));
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+.lph-1{
+  animation:orbitHeart1 4s linear infinite,pulseHeart 1.2s ease-in-out infinite;
+}
+.lph-2{
+  color:var(--violet);
+  filter:drop-shadow(0 0 4px var(--glow-violet));
+  animation:orbitHeart2 5s linear infinite,pulseHeart 1.5s ease-in-out .4s infinite;
+}
+.lph-3{
+  color:var(--gold);
+  filter:drop-shadow(0 0 4px rgba(251,191,36,.5));
+  animation:orbitHeart3 3.5s linear infinite,pulseHeart 1s ease-in-out .8s infinite;
+}
+@keyframes orbitHeart1{
+  0%{transform:rotate(0deg) translateX(clamp(65px,18vw,95px)) rotate(0deg)}
+  100%{transform:rotate(360deg) translateX(clamp(65px,18vw,95px)) rotate(-360deg)}
+}
+@keyframes orbitHeart2{
+  0%{transform:rotate(120deg) translateX(clamp(50px,14vw,75px)) rotate(-120deg)}
+  100%{transform:rotate(480deg) translateX(clamp(50px,14vw,75px)) rotate(-480deg)}
+}
+@keyframes orbitHeart3{
+  0%{transform:rotate(240deg) translateX(clamp(36px,10vw,55px)) rotate(-240deg)}
+  100%{transform:rotate(600deg) translateX(clamp(36px,10vw,55px)) rotate(-600deg)}
+}
+@keyframes pulseHeart{
+  0%,100%{transform:scale(1);opacity:.7}
+  50%{transform:scale(1.4);opacity:1}
+}
+
+/* ── Central cake icon — bounce + rotate ── */
+.lp-icon{
+  position:relative;z-index:3;
+  font-size:clamp(34px,8.5vw,48px);
+  animation:iconFloat 2.5s ease-in-out infinite,iconSpin 8s linear infinite;
+  filter:drop-shadow(0 0 12px rgba(251,191,36,.4));
+}
+@keyframes iconFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-12px) scale(1.1)}
+}
+@keyframes iconSpin{
+  0%{filter:drop-shadow(0 0 12px rgba(251,191,36,.4)) hue-rotate(0deg)}
+  100%{filter:drop-shadow(0 0 12px rgba(251,191,36,.4)) hue-rotate(360deg)}
+}
+
+/* ── Loader text — fade up + glow ── */
+.loader-text{
+  position:relative;z-index:2;
+  font-family:"Great Vibes",cursive;font-size:clamp(22px,6vw,36px);
+  color:var(--rose);
+  text-shadow:0 0 10px var(--glow-pink),0 0 20px var(--glow-violet);
+  opacity:0;margin-top:clamp(6px,1.5vh,14px);
+  padding:0 12px;text-align:center;
+  animation:loaderTextIn 1.2s ease-out .3s forwards;
+}
+@keyframes loaderTextIn{
+  0%{opacity:0;transform:translateY(20px);filter:blur(8px)}
+  100%{opacity:1;transform:translateY(0);filter:blur(0)}
+}
+
+/* ── Animated dots ── */
+.loader-dots{
+  position:relative;z-index:2;
+  font-size:clamp(24px,6.5vw,36px);color:var(--violet);
+  letter-spacing:clamp(4px,1.2vw,6px);margin-top:-6px;
+}
+.loader-dots span{
+  display:inline-block;
+  animation:dotBounce 1.4s ease-in-out infinite;
+}
+.loader-dots span:nth-child(2){animation-delay:.2s}
+.loader-dots span:nth-child(3){animation-delay:.4s}
+@keyframes dotBounce{
+  0%,80%,100%{transform:translateY(0);opacity:.3}
+  40%{transform:translateY(-12px);opacity:1}
+}
+
+/* ── Subtitle — delayed fade with letter-spacing expand ── */
+.loader-sub{
+  position:relative;z-index:2;
+  font-family:"Cormorant Garamond",serif;font-style:italic;
+  font-size:clamp(14px,3.8vw,19px);
+  color:rgba(226,232,240,.55);
+  letter-spacing:clamp(1px,.5vw,2px);
+  opacity:0;padding:0 12px;text-align:center;
+  animation:subIn 1.5s ease-out 1s forwards;
+}
+@keyframes subIn{
+  0%{opacity:0;letter-spacing:12px;filter:blur(4px)}
+  100%{opacity:1;letter-spacing:2px;filter:blur(0)}
+}
+
+/* ── Enter button — delayed appearance + breathing glow ── */
+.lp-btn{
+  position:relative;z-index:2;flex-shrink:0;
+  font-size:clamp(18px,4.5vw,26px)!important;
+  padding:clamp(10px,2vh,15px) clamp(28px,7vw,46px)!important;
+  min-height:48px;margin-top:clamp(4px,1vh,12px);
+  opacity:0;
+  animation:btnAppear 1s ease-out 1.6s forwards,ringPulse 2.6s ease-out 2.6s infinite;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+@keyframes btnAppear{
+  0%{opacity:0;transform:translateY(20px) scale(.9)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+
+body:not(.loaded) main,body:not(.loaded) #sky,body:not(.loaded) footer,body:not(.loaded) .music-toggle{display:none}
+
+/* ══════════════════════════════
+   FLOATING MUSIC CONTROLLER
+   ══════════════════════════════ */
+.music-toggle{
+  position:fixed;
+  top:max(14px,env(safe-area-inset-top,14px));
+  right:max(14px,env(safe-area-inset-right,14px));
+  z-index:999;
+  display:inline-flex;align-items:center;gap:clamp(5px,1.5vw,8px);
+  padding:clamp(7px,1.8vw,10px) clamp(12px,3vw,18px);
+  border-radius:999px;
+  min-height:38px;
+  background:rgba(20,15,35,0.82);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(192,132,252,0.4);
+  box-shadow:0 8px 32px rgba(0,0,0,0.5), 0 0 16px rgba(192,132,252,0.25);
+  color:#fff;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-size:clamp(12px,3vw,14px);font-weight:600;
+  transition:all .35s cubic-bezier(.2,.8,.2,1);
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.music-toggle:hover{
+  transform:translateY(-2px) scale(1.04);
+  border-color:rgba(236,72,153,0.7);
+  box-shadow:0 12px 36px rgba(192,132,252,0.4), 0 0 24px rgba(236,72,153,0.4);
+}
+.music-toggle:active{
+  transform:scale(.95);
+}
+.music-icon{
+  font-size:clamp(15px,3.8vw,18px);
+  display:inline-block;
+  transition:transform .3s ease;
+}
+.music-toggle.playing .music-icon{
+  animation:musicIconBeat 1.4s ease-in-out infinite alternate;
+}
+@keyframes musicIconBeat{
+  0%{transform:rotate(-8deg) scale(1)}
+  100%{transform:rotate(10deg) scale(1.18)}
+}
+.music-waves{
+  display:flex;align-items:flex-end;gap:3px;height:16px;
+}
+.music-waves span{
+  width:3px;height:5px;background:linear-gradient(to top,#c084fc,#f472b6);
+  border-radius:2px;
+  transition:height .3s ease, background .3s ease;
+}
+.music-toggle.playing .music-waves span:nth-child(1){
+  animation:waveBounce 0.9s ease-in-out infinite alternate;
+}
+.music-toggle.playing .music-waves span:nth-child(2){
+  animation:waveBounce 0.7s ease-in-out 0.2s infinite alternate;
+}
+.music-toggle.playing .music-waves span:nth-child(3){
+  animation:waveBounce 1.1s ease-in-out 0.4s infinite alternate;
+}
+@keyframes waveBounce{
+  0%{height:4px}
+  100%{height:16px}
+}
+.music-toggle.paused{
+  opacity:0.65;
+  border-color:rgba(255,255,255,0.2);
+}
+.music-toggle.paused .music-waves span{
+  height:3px;
+  background:#888;
+}
+
+/* ══════════════════════════════
+   SCROLL-REVEAL & MAIN LAYOUT
+   ══════════════════════════════ */
+/* 34. translateY + opacity entry */
+@keyframes up{from{opacity:0;translate:0 30px}}
+.in{animation:up 1.2s cubic-bezier(.2,.8,.2,1) var(--w,0s) both}
+section{position:relative;padding:clamp(24px,5vw,36px) clamp(8px,2vw,16px);contain:layout style}
+main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 clamp(10px,2vw,20px)}
+h1,figcaption{font-family:"Great Vibes","Brush Script MT",cursive;font-weight:400}
+
+/* ══════════════════════════════
+   RESPONSIVE MEDIA QUERIES FOR PHONES & TABLETS
+   ══════════════════════════════ */
+
+/* ── 1. Compact Phones (<= 380px: iPhone SE, Galaxy Z Flip cover, compact Android) ── */
+@media(max-width:380px){
+  .pol{width:88vw;padding:10px 10px 44px}
+  .pol figcaption{font-size:26px;bottom:6px}
+  .name{font-size:56px}
+  .spk{right:-6px;top:-2px;width:30px}
+  .cake{width:88vw}
+  .env{width:92vw;height:140px;margin-top:76px}
+  .paper{font-size:13.5px;padding:6px 8px;line-height:1.3}
+  .env.open .paper{transform:translateY(-76px)}
+  .btn{padding:10px 22px;font-size:17px;min-height:44px}
+  .wish-card{padding:18px 14px}
+  .wish-card p{font-size:15px}
+  .lp-center{width:120px;height:120px}
+  .lp-ring-2{inset:14px}
+  .lp-ring-3{inset:28px}
+  .lp-icon{font-size:32px}
+  .loader-text{font-size:22px}
+  .lp-btn{font-size:17px!important;padding:10px 24px!important}
+}
+
+/* ── 2. Standard Mobile Phones (381px - 599px) ── */
+@media(min-width:381px) and (max-width:599px){
+  .pol{width:min(84vw,330px)}
+  .cake{width:min(86vw,310px)}
+  .row{gap:18px}
+  .env{width:min(88vw,280px)}
+}
+
+/* ── 3. Tablets & Large Screens (600px - 1024px: iPad Mini, iPad Air, Galaxy Tab) ── */
+@media(min-width:600px){
+  .row{gap:24px;justify-content:center}
+  .env{width:240px;margin-top:96px}
+  .wish-carousel{grid-template-columns:repeat(3,1fr);gap:20px}
+  .wish-card{max-width:none}
+}
+
+@media(min-width:768px){
+  section{padding:36px 24px}
+  .pol{width:360px;padding:16px 16px 66px}
+  .pol figcaption{font-size:40px;bottom:12px}
+  .name{font-size:clamp(110px,18vw,175px)}
+  .cake{width:350px}
+  .env{width:250px}
+  .lp-center{width:190px;height:190px}
+  .lp-icon{font-size:52px}
+  .loader-text{font-size:38px}
+  .loader-sub{font-size:21px}
+  .lp-btn{font-size:26px!important;padding:15px 44px!important}
+}
+
+/* ── 4. Landscape Mode on Mobile Devices (short height) ── */
+@media(max-height:540px) and (orientation:landscape){
+  #loading-page{gap:4px;padding:10px 16px;justify-content:center}
+  .lp-center{width:105px;height:105px}
+  .lp-ring-2{inset:12px}
+  .lp-ring-3{inset:24px}
+  .lp-icon{font-size:28px}
+  .loader-text{font-size:20px;margin-top:2px}
+  .loader-dots{font-size:20px;margin-top:-6px}
+  .loader-sub{font-size:13px}
+  .lp-btn{font-size:16px!important;padding:8px 26px!important;min-height:40px;margin-top:4px}
+  .music-toggle{top:8px;right:8px;padding:5px 12px;font-size:11px}
+}
+
+/* ── 5. Touch Devices (fine-tuned tap feedback without sticky hovers) ── */
+@media(hover:none){
+  .wish-card:hover{transform:none;box-shadow:none}
+  .btn:hover{transform:none;box-shadow:0 0 20px rgba(124,58,237,.4)}
+  .env:hover{transform:none}
+  .music-toggle:hover{transform:none}
+  .wish-card:active{transform:scale(.98);border-color:rgba(244,114,182,.5)}
+  .btn:active{transform:scale(.95)!important}
+  .env:active{transform:scale(.97)}
+  .music-toggle:active{transform:scale(.95)}
+}
+
+/* ══════════════════════════════
+   REDUCED MOTION
+   ══════════════════════════════ */
+@media(prefers-reduced-motion:reduce){
+  *,::before,::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
