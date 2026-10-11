@@ -85,10 +85,10 @@
     <div class="lp-ring lp-ring-2"></div>
     <div class="lp-ring lp-ring-3"></div>
 
-    <!-- Pulsing hearts orbiting the rings -->
-    <span class="lp-heart lph-1">♥</span>
-    <span class="lp-heart lph-2">♥</span>
-    <span class="lp-heart lph-3">♥</span>
+    <!-- Pulsing hearts orbiting the rings (independent track + pulsing heart) -->
+    <div class="lp-heart-track lpht-1"><span class="lp-heart lph-1">♥</span></div>
+    <div class="lp-heart-track lpht-2"><span class="lp-heart lph-2">♥</span></div>
+    <div class="lp-heart-track lpht-3"><span class="lp-heart lph-3">♥</span></div>
 
     <!-- Central icon -->
     <div class="lp-icon">🎂</div>
@@ -183,7 +183,7 @@
 </section>
 
 <!-- ═══════════ SECTION 2 — CAKE ═══════════ -->
-<section>
+<section class="cake-section reveal">
   <h3 class="glow-text">Make a wish</h3>
   <svg class="cake" id="cake" viewBox="0 0 260 240" role="img" aria-label="Birthday cake with candles">
     <!-- orbiting ring -->
@@ -222,7 +222,7 @@
 </section>
 
 <!-- ═══════════ SECTION 3 — ENVELOPES ═══════════ -->
-<section>
+<section class="notes-section reveal">
   <h3 class="glow-text">Little notes for you</h3>
   <small class="hint">tap an envelope to open it</small>
   <div class="row">
@@ -232,8 +232,8 @@
   </div>
 </section>
 
-<!-- ═══════════ SECTION 4 — WISHES CAROUSEL (NEW) ═══════════ -->
-<section class="wishes-section">
+<!-- ═══════════ SECTION 4 — WISHES CAROUSEL ═══════════ -->
+<section class="wishes-section reveal">
   <h3 class="glow-text">Birthday Wishes</h3>
   <div class="wish-carousel">
     <div class="wish-card wc1">
@@ -253,7 +253,7 @@
 
 </main>
 
-<footer>Made with <span>♥</span> for the best sister ever, <strong>Ayu</strong></footer>
+<footer class="reveal">Made with <span>♥</span> for the best sister ever, <strong>Ayu</strong></footer>
 
 <script src="script.js"></script>
 </body>

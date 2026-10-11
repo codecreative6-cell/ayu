@@ -194,15 +194,13 @@ function setupSparkleTrail() {
   const ctx = canvas.getContext('2d', { alpha: true });
   let particles = [];
   let mouse = { x: -100, y: -100 };
+  let lastPos = { x: -100, y: -100 };
   let dpr = 1;
 
   // Performance tuning per device tier
-  const maxParticles = perfTier === 'low' ? 30 : perfTier === 'mid' ? 50 : 80;
-  const spawnEvery = perfTier === 'low' ? 4 : perfTier === 'mid' ? 3 : 2; // frames between spawns
-  const useShadow = perfTier !== 'low'; // shadowBlur is very expensive on mobile GPUs
+  const maxParticles = perfTier === 'low' ? 35 : perfTier === 'mid' ? 60 : 90;
 
   function resize() {
-    // Low-end: use dpr 1 to cut pixel count in half
     dpr = perfTier === 'low' ? 1 : Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.floor(innerWidth * dpr);
     canvas.height = Math.floor(innerHeight * dpr);
@@ -214,62 +212,85 @@ function setupSparkleTrail() {
   addEventListener('resize', resize);
   addEventListener('orientationchange', () => setTimeout(resize, 150));
 
+  function addParticle(x, y) {
+    if (particles.length >= maxParticles) return;
+    particles.push(new Particle(x, y));
+  }
+
   function setPos(e) {
+    let nx = -100, ny = -100;
     if (e.touches && e.touches.length > 0) {
-      mouse.x = e.touches[0].clientX;
-      mouse.y = e.touches[0].clientY;
+      nx = e.touches[0].clientX;
+      ny = e.touches[0].clientY;
     } else if (e.clientX !== undefined) {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+      nx = e.clientX;
+      ny = e.clientY;
+    }
+    if (nx > 0) {
+      // Smooth interpolation between previous and current touch point (no gaps on fast sweep)
+      if (lastPos.x > 0) {
+        const dx = nx - lastPos.x, dy = ny - lastPos.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > 8) {
+          const steps = Math.min(Math.floor(dist / 12), 4);
+          for (let s = 1; s <= steps; s++) {
+            const t = s / (steps + 1);
+            addParticle(lastPos.x + dx * t, lastPos.y + dy * t);
+          }
+        }
+      }
+      addParticle(nx, ny);
+      lastPos.x = nx;
+      lastPos.y = ny;
+      mouse.x = nx;
+      mouse.y = ny;
     }
   }
 
   document.addEventListener('mousemove', setPos);
   document.addEventListener('touchstart', setPos, { passive: true });
   document.addEventListener('touchmove', setPos, { passive: true });
-  document.addEventListener('touchend', () => { mouse.x = -100; mouse.y = -100; }, { passive: true });
+  document.addEventListener('touchend', () => { mouse.x = -100; mouse.y = -100; lastPos.x = -100; lastPos.y = -100; }, { passive: true });
 
   function Particle(x, y) {
-    this.x = x + R(-8, 8);
-    this.y = y + R(-8, 8);
-    this.size = R(1.5, 4);
+    this.x = x + R(-6, 6);
+    this.y = y + R(-6, 6);
+    this.size = R(1.8, 4.2);
     this.life = 1;
-    this.decay = R(0.02, 0.05);
-    this.vx = R(-1, 1);
-    this.vy = R(-2, 0);
+    this.decay = R(0.02, 0.045);
+    this.vx = R(-0.8, 0.8);
+    this.vy = R(-1.6, -0.2);
     this.color = ['#f472b6', '#c084fc', '#fbbf24', '#fff'][RI(0, 4)];
   }
 
-  let frameCount = 0;
-  function loop() {
-    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
-    frameCount++;
+  let lastTime = performance.now();
+  function loop(now) {
+    const dt = Math.min((now - lastTime) / 16.67, 2.5) || 1;
+    lastTime = now;
 
-    // Spawn new particle (throttled)
-    if (frameCount % spawnEvery === 0 && mouse.x > 0 && particles.length < maxParticles) {
-      particles.push(new Particle(mouse.x, mouse.y));
-    }
+    ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
 
     // Update + render all particles in one pass
     let writeIdx = 0;
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life -= p.decay;
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+      p.life -= p.decay * dt;
       if (p.life <= 0) continue;
       particles[writeIdx++] = p;
 
       const s = p.size * p.life;
-      ctx.globalAlpha = p.life;
       ctx.fillStyle = p.color;
 
-      if (useShadow) {
-        ctx.shadowBlur = 6;
-        ctx.shadowColor = p.color;
-      }
+      // Soft outer glow pass (fast GPU radial circle without expensive shadowBlur)
+      ctx.globalAlpha = p.life * 0.25;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, s * 2.2, 0, 6.283);
+      ctx.fill();
 
-      // Draw simple circle on low-end, star shape otherwise
+      // Sharp core sparkle pass
+      ctx.globalAlpha = p.life;
       if (perfTier === 'low') {
         ctx.beginPath();
         ctx.arc(p.x, p.y, s, 0, 6.283);
@@ -277,25 +298,23 @@ function setupSparkleTrail() {
       } else {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y - s);
-        ctx.lineTo(p.x + s * 0.3, p.y - s * 0.3);
+        ctx.lineTo(p.x + s * 0.28, p.y - s * 0.28);
         ctx.lineTo(p.x + s, p.y);
-        ctx.lineTo(p.x + s * 0.3, p.y + s * 0.3);
+        ctx.lineTo(p.x + s * 0.28, p.y + s * 0.28);
         ctx.lineTo(p.x, p.y + s);
-        ctx.lineTo(p.x - s * 0.3, p.y + s * 0.3);
+        ctx.lineTo(p.x - s * 0.28, p.y + s * 0.28);
         ctx.lineTo(p.x - s, p.y);
-        ctx.lineTo(p.x - s * 0.3, p.y - s * 0.3);
+        ctx.lineTo(p.x - s * 0.28, p.y - s * 0.28);
         ctx.closePath();
         ctx.fill();
       }
     }
     particles.length = writeIdx; // trim dead particles without splice
-
-    if (useShadow) { ctx.shadowBlur = 0; }
     ctx.globalAlpha = 1;
 
     requestAnimationFrame(loop);
   }
-  loop();
+  requestAnimationFrame(loop);
 }
 
 /* ══════════════════════════════
@@ -366,12 +385,36 @@ function setupAudio() {
   m.addEventListener('pause', updateState);
 }
 
+function setupScrollReveal() {
+  const reveals = $$('.reveal');
+  if (!reveals.length) return;
+  if (!('IntersectionObserver' in window)) {
+    reveals.forEach(r => r.classList.add('active'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.08,
+    rootMargin: '0px 0px -20px 0px'
+  });
+  reveals.forEach(r => observer.observe(r));
+}
+
 function setupLoading() {
   const lp = $('#loading-page'), eb = $('#enter-btn'), m = $('#bg-music'), mt = $('#music-toggle');
   if (!eb) return;
   eb.onclick = () => {
     lp.classList.add('hidden');
-    document.body.classList.add('loaded');
+    requestAnimationFrame(() => {
+      document.body.classList.add('loaded');
+      setupScrollReveal();
+    });
     if (m) {
       m.play().then(() => {
         if (mt) {
@@ -385,7 +428,7 @@ function setupLoading() {
         }
       });
     }
-    setTimeout(() => lp.remove(), 800);
+    setTimeout(() => lp.remove(), 900);
   };
 }
 
@@ -413,6 +456,7 @@ setupCake();
 setupEnvelopes();
 setupAudio();
 setupLoading();
+setupScrollReveal();
 setupSparkleTrail();
 
 console.log(`🎂 Birthday site loaded | Device tier: ${perfTier} | Cores: ${navigator.hardwareConcurrency || '?'} | DPR: ${devicePixelRatio}`);
